@@ -85,7 +85,6 @@ const SignIn = ({setlog,setuser,setpassword,settoken,props}) => {
         remember: true,
       }}
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
     >
         <h1 className="welcome-message">Welcome!</h1>
         <Form.Item
