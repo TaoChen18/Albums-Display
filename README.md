@@ -31,7 +31,6 @@ Just for showing some features related to LogIn
 The project is deployed using AWS Amplify.  
   
 The URL is https://master.d9ew9jzopygal.amplifyapp.com/  
-(Some unknown reasons disabled the CSS animation after deployment...)
 
 ## Notice
 Shopping Cart page is not completed. (Just a Demo one)
