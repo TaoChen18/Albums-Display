@@ -1,6 +1,4 @@
-  
-  .topic-container {
-    /* background: url('/images/img-home.jpg') center center/cover no-repeat; */
+.topic-container {
     height: 50vh;
     width: 100%;
     display: flex;

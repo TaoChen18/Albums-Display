@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { List, Card, Input, Space,Tag, Collapse } from 'antd';
-import { AppleOutlined } from '@ant-design/icons';
+import { List, Card, Input, Space,Tag, InputNumber, Form, Button, Menu, Dropdown} from 'antd';
+import { AppleOutlined, DownOutlined } from '@ant-design/icons';
 import './Albums.css';
 
 
 const { Search } = Input;
 
-const Albums = () => {
+const Albums = ({onClick,props}) => {
     const [data, setData] = useState(null)
     const [dataDefault, setDataDefault] = useState(null);
     const [input, setInput] = useState(null);
     const [play, setPlay] = useState(true);
     const [duration, setDuration] = useState(0);
     const [index, setIndex] = useState({});
+    const [firstime, setFirstTime] = useState(true);
+    const [submitError, setSubmitError] = useState(null);
+    const [orders, setOrders] = useState(null);
 
     const fetchURL = "https://itunes.apple.com/us/rss/topalbums/limit=100/json"
     
@@ -32,6 +35,7 @@ const Albums = () => {
         const jsonData = await response.json();
         setData(jsonData.feed.entry);
         setDataDefault(jsonData.feed.entry)
+        setFirstTime(false);
     }
 
     const onSearch = async (input) => {
@@ -47,6 +51,80 @@ const Albums = () => {
         setPlay(false);
         setDuration(0);
     }
+
+    const categories = [];
+    for(let i = 0; i < data?.length;i++){
+        categories.push(data[i].category.attributes.label);
+    }
+    const distinctcategory = [...new Set(categories)]
+
+    const RecoverData = async () => {
+        setData(dataDefault);
+        setPlay(false);
+        setDuration(0);
+    }
+
+    const RecoverOrder = async () => {
+        const sorted = [...data];
+        setData(sorted);
+        setPlay(false);
+        setDuration(0);
+    }
+
+    const SortPriceAscending= async () => {
+        const sorted = [...data].sort((a,b) => (parseFloat(a["im:price"].label?.substring(1)) > parseFloat(b["im:price"].label?.substring(1))) ? 1: -1);
+        setData(sorted);
+        setPlay(false);
+        setDuration(0);
+      }
+
+    const SortPriceDescending= async () => {
+        const sorted = [...data].sort((a,b) => (parseFloat(a["im:price"].label?.substring(1)) < parseFloat(b["im:price"].label?.substring(1))) ? 1: -1);
+        setData(sorted);
+        setPlay(false);
+        setDuration(0);
+    }
+
+    const SortDateDescending= async () => {
+        const sorted = [...data].sort((a,b) => (a["im:releaseDate"].label < b["im:releaseDate"].label ? 1: -1));
+        setData(sorted);
+        setPlay(false);
+        setDuration(0);
+    }
+    const SortDateAscending= async () => {
+        const sorted = [...data].sort((a,b) => (a["im:releaseDate"].label > b["im:releaseDate"].label ? 1: -1));
+        setData(sorted);
+        setPlay(false);
+        setDuration(0);
+    }
+
+    const FilterByYear = (start,end) => {
+        const filtered = []
+        for(let i = 0; i < data.length;i++){
+            if(data[i]["im:releaseDate"].attributes.label.split(',')[1] >= start &&
+            data[i]["im:releaseDate"].attributes.label.split(',')[1] <= end){
+                filtered.push(data[i]);
+            }
+        }
+        setData(filtered);
+        setPlay(false);
+        setDuration(0);
+    }
+
+    const FilterByCategory = async (thecategory) => {
+        const filtered = []
+        for(let i = 0; i < data.length;i++){
+            if(data[i].category.attributes.label === thecategory){
+                filtered.push(data[i]);
+            }
+        }
+        setData(filtered);
+        setPlay(false);
+        setDuration(0);
+        
+    }
+
+    
     const listData = [];
     let i = 0;
     while(i < data?.length){
@@ -78,12 +156,75 @@ const Albums = () => {
     }
 
     const expandCard = (i) => {
-        console.log(i)
         setIndex({...setIndex,[i]: !index[i]})
     }
 
+      const onFormFinish = async (order,observerInfo) => {
+          if(!props.loggedIn){
+            setSubmitError(["Please LogIn before Purchase!"])
+          }else{
+            setOrders({
+                id: i,
+                picture: order.picture,
+                name: order.name,
+                artist: order.artist,
+                price: order.price,
+                num: observerInfo
+            })
+            onClick(orders);
+          }
+      }
+    
+
+      const menuSort = (
+        <Menu>
+            <Menu.Item key="0" onClick={RecoverOrder}>
+            Default Order
+          </Menu.Item>
+          <Menu.Item key="0" onClick={SortPriceAscending}>
+            Lowest to Highest Price
+          </Menu.Item>
+          <Menu.Item key="1" onClick={SortPriceDescending}>
+            Highest to Lowest Price
+          </Menu.Item>
+          <Menu.Item key="2" onClick={SortDateDescending}>
+              Release Date New to Old
+            </Menu.Item>
+          <Menu.Item key="3" onClick={SortDateAscending}>
+              Release Date Old to New
+            </Menu.Item>
+        </Menu>
+      );
+
+
+      const menuYear = (
+        <Menu>
+            <Menu.Item onClick={() => FilterByYear(1970,1989)}>
+                    1970 - 1989
+            </Menu.Item>
+            <Menu.Item onClick={() => FilterByYear(1990,2009)}>
+                    1990 - 2009
+            </Menu.Item>
+            <Menu.Item onClick={() => FilterByYear(2010,2021)}>
+                    2010 - 2021
+            </Menu.Item>
+        </Menu>
+      );
+
+      const menuCategory = (
+        <Menu>
+            {distinctcategory.map((item) =>
+            <Menu.Item onClick={()=>FilterByCategory(item)}>
+                    {item}
+            </Menu.Item>
+            )}
+        </Menu>
+      );
+
+
     return(
         <>
+        
         <div className="search_bar">
         <Space direction="vertical">
             <Search
@@ -95,8 +236,32 @@ const Albums = () => {
             />
         </Space>
         </div>
-        
+
         <div className="cards">
+
+        <div className="ant-dropdown-link" style={{'animation': `${firstime ? 'fade-in':""} 1s`,
+                    'animationDuration': `${0.2}s`}}>
+        <Space direction="vertical">
+            <Space wrap>
+                <div className="filter">Filter By: </div>
+            <Dropdown overlay={menuYear} placement="bottomCenter" trigger={['click']}>
+                <Button>Year</Button>
+            </Dropdown>
+            <Dropdown overlay={menuCategory} placement="bottomCenter" trigger={['click']}>
+                <Button>Category</Button>
+            </Dropdown>
+            <a className="reset-button" onClick={RecoverData}>Reset</a>
+            <Dropdown className="sort-button" overlay={menuSort} placement="bottomRight" trigger={['click']}>
+                <a onClick={e => e.preventDefault()}>
+                Sort <DownOutlined />
+                </a>
+            </Dropdown>
+            </Space>
+        </Space>
+        </div>
+
+
+        
             
         <List itemLayout="vertical" size="small" pagination={{
             onChange: page => {
@@ -110,7 +275,7 @@ const Albums = () => {
                 <div className="card_container"
                 style={{
                     'width' : `${index[item.id] ? 550 : 250}px`,
-                    'height' : `${index[item.id] ? 450 : 450}px`,
+                    'height' : `${index[item.id] ? 480 : 480}px`,
                     'transition' : 'width 1s',
                     'animation': `${play ? 'fade-in':""} 1s`,
                     'animationDuration': `${0.2*duration}s`
@@ -119,7 +284,7 @@ const Albums = () => {
                 <Card
                 className='card_link stack_top'style={{
                     'animation': `${play ? 'fade-in':""} 1s`,
-                    'animationDuration': `${0.2*duration}s`
+                    'animationDuration': `${0.1*duration}s`
                 }}
                 onClick={() => {expandCard(item.id)}}
                 cover={
@@ -145,7 +310,41 @@ const Albums = () => {
                         <h5 className='artist_in'><span>Artist: </span><a href={item.artist_href} target="_blank">{item.artist}</a></h5>
                         <h5 className='release_date_in'><span>Release Date: </span>{item.release}</h5>
                         <h5 className='company'><span>Company: </span>{item.company}</h5>
-                        <h5 className='item_count'>{item.num}</h5>
+                        
+                        <Form className='submission_form'
+                            initialValues={{
+                            Amount: "0"
+                            }}
+                            onFinish={onFormFinish.bind(this,item)}
+                        >
+                            <Form.Item
+                            style={{ 'fontWeight':'bold',
+                                    'fontSize':'14px',
+                                    'fontFamily':"Georgia, 'Times New Roman', Times, serif;"}}
+                            label="Amount"
+                            name="Amount"
+                            rules={
+                                [
+                                    {
+                                        type: 'number',
+                                        min:0,
+                                        max:99,
+                                        message:'Please enter a valid number!'
+                                    }
+                                ]
+                            }
+                            >
+                            <InputNumber min={0} max={item.num} style={{ width: "35%" }} />
+                            </Form.Item>
+                            <Form.Item>
+                            <Button type="primary" htmlType="submit">
+                                Add to Cart
+                            </Button>
+                            {submitError? submitError.map(error => (
+                            <p style={{'color':'red'}} key={error}>Error: {error}</p>
+                            )): <p/>}
+                            </Form.Item>
+                        </Form>
                     </div>
                 </div>
                 

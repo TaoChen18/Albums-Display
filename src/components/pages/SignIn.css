@@ -1,0 +1,31 @@
+.layout {
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .signin-form {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    position: relative;
+    top: 200px;
+    z-index: 999;
+    box-shadow: inset 0 0 0 1000px rgba(255,255,255,0.5);
+    -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
+    filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
+    border-radius: 10px;
+    height: 350px;
+  }
+
+
+  
+  .welcome-message {
+    margin-bottom: 2vw;
+    font-size: 32px;
+    font-family: 'Times New Roman', Times, serif;
+    text-align:center;
+    font-weight: bold;
+    
+  }

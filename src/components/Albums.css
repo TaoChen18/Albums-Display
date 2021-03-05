@@ -43,7 +43,8 @@
     transform-origin: center bottom;
     display: inline-block;
     flex-flow: column;
-    margin-left: 4vw;
+    margin-left: 2vw;
+    margin-right: 2vw;
     margin-bottom: 4vw;
     box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
     -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
@@ -57,7 +58,7 @@
     display: inline-block;
     flex-flow: column;
     width: 250px;
-    height: 450px;
+    height: 480px;
     box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
     -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
     filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
@@ -65,7 +66,7 @@
     overflow: hidden;
     text-decoration: none;
     z-index:1;
-
+    cursor: pointer;
   }
 
   .card_info{
@@ -142,4 +143,46 @@ span{
 .apple_link:hover{
     color: cornflowerblue;
     cursor: pointer;
+}
+
+.submission_form{
+    position: absolute;
+    top: 300px;
+}
+
+.ant-dropdown-link{
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
+    filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    z-index:1;
+    cursor: pointer;
+    background-color: rgba(236, 202, 152, 0.473);
+    padding: 10px 10px 10px 50px;
+    margin-bottom: 20px;
+    margin-top: -50px;
+    margin-left: 2vw;
+    margin-right: 2vw;
+}
+
+.sort-button{
+    position: absolute;
+    right: 0;
+    top:15px;
+    margin-right: 10px;
+    color:black;
+    font-weight: bold;
+}
+
+.reset-button{
+    text-decoration: underline;
+    font-weight: bold;
+    color: black;
+}
+
+.filter{
+    font-weight: bold;
+    margin-left: -30px;
 }
