@@ -7,9 +7,10 @@ This web application can support several functionalities including:
 3. Users can fuzzy search for items based on Album's name or Artist's name
 4. Users can use Filters to filter the results they want
 5. Users can sort the items by price or by year
-6. Navigation Bar can change based on whether the user has logged in or not
-7. Local Storage is available for saving user's token
-8. CSS animation is available for both Card display and Card expand
+6. Users can't add items to Cart without LogIn
+7. Navigation Bar can change based on whether the user has logged in or not
+8. Local Storage is available for saving user's token
+9. CSS animation is available for both Card display and Card expand
 
 ## Admin User
 username: admin  
@@ -31,3 +32,6 @@ The project is deployed using AWS Amplify.
   
 The URL is https://master.d9ew9jzopygal.amplifyapp.com/  
 (Some unknown reasons disabled the CSS animation after deployment...)
+
+## Notice
+Shopping Cart page is not completed. (Just a Demo one)
