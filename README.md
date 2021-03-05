@@ -11,6 +11,11 @@ This web application can support several functionalities including:
 7. Local Storage is available for saving user's token
 8. CSS animation is available for both Card display and Card expand
 
+## Admin User
+username: admin  
+password: 123456  
+Just for showing some features related to LogIn
+
 ## Library Used:
 
 1. Ant Design Library for Forms, Icons
