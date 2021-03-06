@@ -9,7 +9,6 @@ const { Search } = Input;
 const Albums = ({onClick,props}) => {
     const [data, setData] = useState(null)
     const [dataDefault, setDataDefault] = useState(null);
-    const [input, setInput] = useState(null);
     const [play, setPlay] = useState(true);
     const [duration, setDuration] = useState(0);
     const [index, setIndex] = useState({});
@@ -46,7 +45,6 @@ const Albums = ({onClick,props}) => {
                 filtered.push(dataDefault[i]);
             }
         }
-        setInput(input);
         setData(filtered);
         setPlay(false);
         setDuration(0);
@@ -250,11 +248,11 @@ const Albums = ({onClick,props}) => {
             <Dropdown overlay={menuCategory} placement="bottomCenter" trigger={['click']}>
                 <Button>Category</Button>
             </Dropdown>
-            <a className="reset-button" onClick={RecoverData}>Reset</a>
-            <Dropdown className="sort-button" overlay={menuSort} placement="bottomRight" trigger={['click']}>
-                <a onClick={e => e.preventDefault()}>
+            <div className="reset-button" onClick={RecoverData}>Reset</div>
+            <Dropdown overlay={menuSort} placement="bottomRight" trigger={['click']}>
+                <div className="sort-button" onClick={e => e.preventDefault()}>
                 Sort <DownOutlined />
-                </a>
+                </div>
             </Dropdown>
             </Space>
         </Space>
@@ -306,8 +304,8 @@ const Albums = ({onClick,props}) => {
                 }}
                 >
                         <h5 className='album'><span>{item.name}</span></h5>
-                        <div className='album_link'><a href={item.album_href} target='_blank' style={{'color':'black'}}>Learn more<AppleOutlined className="apple_link"/></a></div>
-                        <h5 className='artist_in'><span>Artist: </span><a href={item.artist_href} target="_blank">{item.artist}</a></h5>
+                        <div className='album_link'><a href={item.album_href} target='_blank' rel="noreferrer" style={{'color':'black'}}>Learn more<AppleOutlined className="apple_link"/></a></div>
+                        <h5 className='artist_in'><span>Artist: </span><a href={item.artist_href} target="_blank" rel="noreferrer">{item.artist}</a></h5>
                         <h5 className='release_date_in'><span>Release Date: </span>{item.release}</h5>
                         <h5 className='company'><span>Company: </span>{item.company}</h5>
                         

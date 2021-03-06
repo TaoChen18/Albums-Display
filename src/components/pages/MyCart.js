@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { List, Avatar, Space, Button } from 'antd';
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+import { List, Button } from 'antd';
 import './MyCart.css'
 
 const MyCart = (props) => {
@@ -38,12 +37,6 @@ const MyCart = (props) => {
         }
     }
 
-    const IconText = ({ icon, text }) => (
-    <Space>
-        {React.createElement(icon)}
-        {text}
-    </Space>
-    );
     return (
         <>
         <div>

@@ -158,7 +158,6 @@ span{
     overflow: hidden;
     text-decoration: none;
     z-index:1;
-    cursor: pointer;
     background-color: rgba(236, 202, 152, 0.473);
     padding: 10px 10px 10px 50px;
     margin-bottom: 20px;
@@ -174,12 +173,24 @@ span{
     margin-right: 10px;
     color:black;
     font-weight: bold;
+    cursor:pointer;
+}
+
+.sort-button:hover{
+    color: rgba(0,255,255,0.5);
+    transition: 0.4s ease;
 }
 
 .reset-button{
     text-decoration: underline;
     font-weight: bold;
     color: black;
+    cursor: pointer;
+}
+
+.reset-button:hover{
+    color: rgba(0,255,255,0.5);
+    transition: 0.4s ease;
 }
 
 .filter{

@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import {CustomerServiceOutlined,UserOutlined} from '@ant-design/icons';
 
 function Navbar({onClick,props}) {
-  const [click, setClick] = useState(false);
-
-  const handleClick = () => setClick(!click);
 
   return (
     <>
@@ -17,7 +14,7 @@ function Navbar({onClick,props}) {
             <CustomerServiceOutlined className="music-logo"/>
           </Link>
           
-          <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+          <ul className='nav-menu'>
             <li className='nav-item'>
               <Link to='/' className='nav-links'>
                 Home

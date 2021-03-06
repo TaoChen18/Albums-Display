@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Form,
   Input,
   Tooltip,
   Cascader,
   Select,
-  Row,
-  Col,
   Checkbox,
   Button,
-  AutoComplete,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import './SignUp.css'
@@ -99,20 +96,8 @@ const SignUp = () => {
         </Select>
       </Form.Item>
     );
-    const [autoCompleteResult, setAutoCompleteResult] = useState([]);
   
-    const onWebsiteChange = (value) => {
-      if (!value) {
-        setAutoCompleteResult([]);
-      } else {
-        setAutoCompleteResult(['.com', '.org', '.net'].map((domain) => `${value}${domain}`));
-      }
-    };
-  
-    const websiteOptions = autoCompleteResult.map((website) => ({
-      label: website,
-      value: website,
-    }));
+    
     return (
         <div className="layout">
           <img alt='background' src='https://www.ox.ac.uk/sites/files/oxford/styles/ow_large_feature/s3/field/field_image_main/Sheet%20Music%20-%20Luke%20Lewis.jpg?itok=-JlFk72h'
@@ -254,7 +239,7 @@ const SignUp = () => {
           {...tailFormItemLayout}
         >
           <Checkbox>
-            I have read the <a href="">agreement</a>
+            I have read the <a href="https://www.lipsum.com/" target="_blank" rel="noreferrer">agreement</a>
           </Checkbox>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>

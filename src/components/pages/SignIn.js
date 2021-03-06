@@ -22,18 +22,12 @@ const layout = {
     span: 26,
   },
 };
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
 
 const userlibrary = {
     "admin":"123456"
 }
 
-const SignIn = ({setlog,setuser,setpassword,settoken,props}) => {
+const SignIn = ({setlog,setuser,settoken,props}) => {
     const [username,setUserName] = useState();
     const [password, setPassWord] = useState();
     const [loginError, setloginError] = useState(null);
@@ -55,7 +49,6 @@ const SignIn = ({setlog,setuser,setpassword,settoken,props}) => {
           }else{
             setlog(true);
             setuser(values.username);
-            setpassword(values.password);
             setUserName(values.username);
             setPassWord(values.password)
             handleSubmit();
@@ -122,7 +115,7 @@ const SignIn = ({setlog,setuser,setpassword,settoken,props}) => {
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
 
-        <a className="login-form-forgot" href="">
+        <a className="login-form-forgot" href="/forget-form">
           Forgot password
         </a>
       </Form.Item>
@@ -131,7 +124,7 @@ const SignIn = ({setlog,setuser,setpassword,settoken,props}) => {
         <Button type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
-        Or <a href="">register now!</a>
+        Or <a href="/sign-up">register now!</a>
         {loginError? loginError.map(error => (
                             <p style={{'color':'red'}} key={error}>Error: {error}</p>
                             )): <p/>}
