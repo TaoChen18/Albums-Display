@@ -34,7 +34,7 @@ The URL is https://master.d9ew9jzopygal.amplifyapp.com/
 
 
 ## Token Usage
-The server file is in **auth** folder. To run it, just use **"node server.js"** command.  
+The server file is in **src/componment/auth** folder. To run it, just use **"node server.js"** command.  
 Once the server is running, users don't need to relogin the next time when they visit the website if they didn't logout.
 
 ## Notice
