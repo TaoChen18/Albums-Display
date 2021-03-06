@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
 import './Forget.css'
 
 const layout = {
@@ -58,25 +58,21 @@ const Forget = () => {
             </Form.Item>
 
             <Form.Item
-                label="Password"
-                name="password"
+                label="Email"
+                name="email"
                 rules={[
                 {
                     required: true,
-                    message: 'Please input your password!',
+                    message: 'Please input your email!',
                 },
                 ]}
             >
-                <Input.Password />
-            </Form.Item>
-
-            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-                <Checkbox>Remember me</Checkbox>
+                <Input />
             </Form.Item>
 
             <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit">
-                Submit
+                Send Email
                 </Button>
             </Form.Item>
             </Form>
