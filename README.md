@@ -8,9 +8,10 @@ This web application can support several functionalities including:
 4. Users can use Filters to filter the results they want
 5. Users can sort the items by price or by year
 6. Users can't add items to Cart without LogIn
-7. Navigation Bar can change based on whether the user has logged in or not
-8. Local Storage is available for saving user's token
-9. CSS animation is available for both Card display and Card expand
+7. Users can add items to Cart after login, and edit the Item's info in the Cart page
+8. Navigation Bar can change based on whether the user has logged in or not
+9. Local Storage is available for saving user's token
+10. CSS animation is available for both Card display and Card expand
 
 ## Admin User
 username: admin  
@@ -37,5 +38,3 @@ The URL is https://master.d9ew9jzopygal.amplifyapp.com/
 The server file is in **src/componment/auth** folder. To run it, just use **"node server.js"** command.  
 Once the server is running, users don't need to relogin the next time when they visit the website if they didn't logout.
 
-## Notice
-Shopping Cart page is not completed. (Just a Demo one)
