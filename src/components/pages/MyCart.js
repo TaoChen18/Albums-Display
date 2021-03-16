@@ -6,6 +6,7 @@ const MyCart = ({setOrder,props}) => {
     const [orders,setOrders] = useState(null);
     const [prices,setPrices] = useState({});
     const [amount,setAmount] = useState({});
+    const [totalamount, setTotal] = useState(null);
 
     useEffect(() => {
         setOrders(props.data);
@@ -19,7 +20,7 @@ const MyCart = ({setOrder,props}) => {
     }
 
     const listData = [];
-    let totalamount = 0;
+    let defaulttotal = 0;
     for(let i in orders){
         const pic = orders[i].picture
         const name = orders[i].name
@@ -34,11 +35,13 @@ const MyCart = ({setOrder,props}) => {
             num: orders[i].num,
             itemcount: orders[i].itemcount
         });
-        totalamount += (parseFloat(price.substring(1)) * orders[i].num)
+        defaulttotal += (parseFloat(price.substring(1)) * orders[i].num)
     }
 
     const onAmountChange = (item,e) => {
-        setAmount({...setAmount,[item.id]:e})
+        const tempamount = amount
+        tempamount[item.id] = e
+        setAmount(tempamount)
         setPrices({...setPrices,[item.id]:parseFloat(item.price.substring(1))*e})
         let temporder = orders;
         for(let i in temporder){
@@ -47,6 +50,11 @@ const MyCart = ({setOrder,props}) => {
             }
         }
         setOrder(temporder)
+        let temptotal = 0
+        for(let i in temporder){
+            temptotal += parseFloat(temporder[i].price.substring(1)) * temporder[i].num
+        }
+        setTotal(temptotal)
     }
 
     return (
@@ -76,7 +84,7 @@ const MyCart = ({setOrder,props}) => {
                 max={item.itemcount} 
                 defaultValue={item.num}
                 onChange={(e)=>onAmountChange(item,e)}/><br/>
-                Price: ${`${prices[item.id]? prices[item.id]:parseFloat(item.price.substring(1))*item.num}`}
+                Price: ${`${prices[item.id]? prices[item.id]:(parseFloat(item.price.substring(1))*item.num).toFixed(2)}`}
                 </div>
                 <Button type="primary" onClick={()=>onRemoveItem(item)}>
                     Remove Item
@@ -87,7 +95,7 @@ const MyCart = ({setOrder,props}) => {
         <hr style={{
         'border': '1px solid black'
     }}/>
-        <div className="total-amount">Total: ${totalamount}</div>
+        <div className="total-amount">Total: ${`${totalamount? totalamount.toFixed(2):defaulttotal}`}</div>
         </div>
         <Button
         style={{'margin-top':"40px",
