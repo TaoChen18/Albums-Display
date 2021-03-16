@@ -21,6 +21,7 @@ const Albums = ({setOrder,props}) => {
     const [allorders,setAllOrders] = useState({});
     const [overamount, setOverAmount] = useState({});
     const [submitSuccess, setSubmitSuccess] = useState({});
+    const [invalidNumber, setInvalidNumber] = useState({});
 
     const fetchURL = "https://itunes.apple.com/us/rss/topalbums/limit=100/json"
     
@@ -64,13 +65,6 @@ const Albums = ({setOrder,props}) => {
 
     const RecoverData = async () => {
         setData(dataDefault);
-        setPlay(false);
-        setDuration(0);
-    }
-
-    const RecoverOrder = async () => {
-        const sorted = [...data];
-        setData(sorted);
         setPlay(false);
         setDuration(0);
     }
@@ -179,12 +173,14 @@ const Albums = ({setOrder,props}) => {
 
       const onFormFinish = async (order,e) => {
           e.preventDefault();
-          if(!amount[order.id]){
-              return
-          }
           if(!props.loggedIn){
             setSubmitError({...setSubmitError,[order.id]:["Please LogIn before Purchase!"]})
           }else{
+            if(!amount[order.id]){
+                setInvalidNumber({...setInvalidNumber,[order.id]:["Please enter a valid number!"]})
+                return
+            }
+            setInvalidNumber({...setInvalidNumber,[order.id]:[]})
             let ordernum = amount[order.id];
             if(order.id in allorders){
                 if(ordernum + allorders[order.id].num > order.num){
@@ -215,7 +211,7 @@ const Albums = ({setOrder,props}) => {
 
       const menuSort = (
         <Menu>
-            <Menu.Item key="0" onClick={RecoverOrder}>
+            <Menu.Item key="0" onClick={RecoverData}>
             Default Order
           </Menu.Item>
           <Menu.Item key="0" onClick={SortPriceAscending}>
@@ -363,6 +359,9 @@ const Albums = ({setOrder,props}) => {
                         <Button type="primary" onClick={(e)=>onFormFinish(item,e)}>
                             Add to Cart
                         </Button>
+                        {invalidNumber[item.id]? invalidNumber[item.id].map(msg => (
+                            <p style={{'color':'red'}} key={msg}>Error: {msg}</p>
+                            )): <p/>}
                         {submitError[item.id]? submitError[item.id].map(error => (
                             <p style={{'color':'red'}} key={error}>Error: {error}</p>
                             )): <p/>}
