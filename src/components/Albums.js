@@ -173,7 +173,7 @@ const Albums = ({setOrder,props}) => {
 
       const onFormFinish = async (order,e) => {
           e.preventDefault();
-          if(!props.loggedIn){
+          if(!props.loggedIn && !props.token){
             setSubmitError({...setSubmitError,[order.id]:["Please LogIn before Purchase!"]})
           }else{
             if(!amount[order.id]){

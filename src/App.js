@@ -21,7 +21,7 @@ const App = () => {
        <Navbar onClick={()=> {removeToken(token);setLoggedIn(false)}} props={{token:token,loggedIn:loggedIn,username:username}}/>
        
        <Switch>
-         <Route path='/' exact render={(props)=><Albums setOrder={setMyOrder} props={{loggedIn:loggedIn,myorder:myorder}}/>} />
+         <Route path='/' exact render={(props)=><Albums setOrder={setMyOrder} props={{loggedIn:loggedIn,myorder:myorder,token:token}}/>} />
          <Route path='/sign-in' render={(props) => (token || loggedIn? <Redirect to="/"/> : <SignIn setlog={setLoggedIn} setuser={setUsername} settoken={saveToken} {...props}/>)}/>
          <Route path='/sign-up' component={SignUp} />
          <Route path='/my-cart' render={(props)=><MyCart setOrder={setMyOrder} props={{data:myorder}}/>} />
