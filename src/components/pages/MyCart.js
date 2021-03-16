@@ -17,6 +17,11 @@ const MyCart = ({setOrder,props}) => {
         delete temp[item.id]
         setOrders(temp);
         setOrder(temp);
+        let temptotal = 0
+        for(let i in temp){
+            temptotal += parseFloat(temp[i].price.substring(1)) * temp[i].num
+        }
+        setTotal(temptotal)
     }
 
     const listData = [];
