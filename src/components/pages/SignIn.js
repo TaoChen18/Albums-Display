@@ -40,6 +40,8 @@ const SignIn = ({setlog,setuser,settoken,props}) => {
         settoken(token);
     }
 
+    
+
   const onFinish = (values) => {
       if(!(values.username in userlibrary)){
             onFinishFailed("User or password doesn't match");
@@ -49,8 +51,6 @@ const SignIn = ({setlog,setuser,settoken,props}) => {
           }else{
             setlog(true);
             setuser(values.username);
-            setUserName(values.username);
-            setPassWord(values.password)
             handleSubmit();
           }
       }
@@ -59,6 +59,14 @@ const SignIn = ({setlog,setuser,settoken,props}) => {
   const onFinishFailed = (errorInfo) => {
     setloginError([errorInfo])
   };
+
+  const onUsernameChange = (event) => {
+    setUserName(event.target.value);
+  }
+
+  const onPasswordChange = (event) => {
+    setPassWord(event.target.value);
+  }
 
   return (
       <div className="layout">
@@ -90,7 +98,10 @@ const SignIn = ({setlog,setuser,settoken,props}) => {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} 
+        placeholder="Username" 
+        value={username}
+        onChange={onUsernameChange} />
       </Form.Item>
 
       <Form.Item
@@ -107,6 +118,7 @@ const SignIn = ({setlog,setuser,settoken,props}) => {
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
+          onChange={onPasswordChange}
         />
       </Form.Item>
 

@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { List, Card, Input, Space,Tag, InputNumber, Form, Button, Menu, Dropdown} from 'antd';
+import { List, Card, Input, Space,Tag, InputNumber, Button, Menu, Dropdown} from 'antd';
 import { AppleOutlined, DownOutlined } from '@ant-design/icons';
 import './Albums.css';
+import Topic from './Topic';
+import Footer from './Footer';
 
 
 const { Search } = Input;
 
-const Albums = ({onClick,props}) => {
+const Albums = ({setOrder,props}) => {
     const [data, setData] = useState(null)
     const [dataDefault, setDataDefault] = useState(null);
     const [play, setPlay] = useState(true);
     const [duration, setDuration] = useState(0);
     const [index, setIndex] = useState({});
     const [firstime, setFirstTime] = useState(true);
-    const [submitError, setSubmitError] = useState(null);
+    const [submitError, setSubmitError] = useState({});
     const [orders, setOrders] = useState(null);
+    const [amount, setAmount] = useState({});
+    const [allorders,setAllOrders] = useState({});
+    const [overamount, setOverAmount] = useState({});
+    const [submitSuccess, setSubmitSuccess] = useState({});
 
     const fetchURL = "https://itunes.apple.com/us/rss/topalbums/limit=100/json"
     
@@ -157,20 +163,53 @@ const Albums = ({onClick,props}) => {
         setIndex({...setIndex,[i]: !index[i]})
     }
 
-      const onFormFinish = async (order,observerInfo) => {
+    useEffect(() => {
+        if(orders){
+            let temporder = allorders
+            if(temporder.hasOwnProperty(orders.id)){
+                temporder[orders.id].num=orders.num
+            }else{
+                temporder[orders.id] = orders
+            }
+            setAllOrders(temporder)
+            setOrders(null);
+            
+        }
+    },[orders,allorders])
+
+      const onFormFinish = async (order,e) => {
+          e.preventDefault();
+          if(!amount[order.id]){
+              return
+          }
           if(!props.loggedIn){
-            setSubmitError(["Please LogIn before Purchase!"])
+            setSubmitError({...setSubmitError,[order.id]:["Please LogIn before Purchase!"]})
           }else{
+            let ordernum = amount[order.id];
+            if(order.id in allorders){
+                if(ordernum + allorders[order.id].num > order.num){
+                    setOverAmount({...setOverAmount,[order.id]:["Can't add more items!"]})
+                    setSubmitSuccess({...setSubmitSuccess,[order.id]:[]})
+                    return
+                }
+                ordernum += allorders[order.id].num
+            }
             setOrders({
-                id: i,
+                id: order.id,
                 picture: order.picture,
                 name: order.name,
                 artist: order.artist,
                 price: order.price,
-                num: observerInfo
+                num: ordernum,
+                itemcount: order.num
             })
-            onClick(orders);
+            setOrder(allorders);
+            setSubmitSuccess({...setSubmitSuccess,[order.id]:["Added to your Cart!"]})
           }
+      }
+
+      const onOrderChange = (i,e)=> {
+        setAmount({...setAmount, [i]:e});
       }
     
 
@@ -219,9 +258,12 @@ const Albums = ({onClick,props}) => {
         </Menu>
       );
 
+      
+
 
     return(
         <>
+        <Topic />
         
         <div className="search_bar">
         <Space direction="vertical">
@@ -308,47 +350,36 @@ const Albums = ({onClick,props}) => {
                         <h5 className='artist_in'><span>Artist: </span><a href={item.artist_href} target="_blank" rel="noreferrer">{item.artist}</a></h5>
                         <h5 className='release_date_in'><span>Release Date: </span>{item.release}</h5>
                         <h5 className='company'><span>Company: </span>{item.company}</h5>
-                        
-                        <Form className='submission_form'
-                            initialValues={{
-                            Amount: "0"
-                            }}
-                            onFinish={onFormFinish.bind(this,item)}
-                        >
-                            <Form.Item
-                            style={{ 'fontWeight':'bold',
-                                    'fontSize':'14px',
-                                    'fontFamily':"Georgia, 'Times New Roman', Times, serif;"}}
-                            label="Amount"
-                            name="Amount"
-                            rules={
-                                [
-                                    {
-                                        type: 'number',
-                                        min:0,
-                                        max:99,
-                                        message:'Please enter a valid number!'
-                                    }
-                                ]
-                            }
-                            >
-                            <InputNumber min={0} max={item.num} style={{ width: "35%" }} />
-                            </Form.Item>
-                            <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                Add to Cart
-                            </Button>
-                            {submitError? submitError.map(error => (
+
+                        <div className='submission_form'>
+                        <InputNumber min={0} 
+                        max={item.num} 
+                        style={{ width: "35%",
+                                "marginBottom": "10px" }}
+                        defaultValue={0}
+                        onChange={(e)=>onOrderChange(item.id,e)}
+                        /><br/>
+                            
+                        <Button type="primary" onClick={(e)=>onFormFinish(item,e)}>
+                            Add to Cart
+                        </Button>
+                        {submitError[item.id]? submitError[item.id].map(error => (
                             <p style={{'color':'red'}} key={error}>Error: {error}</p>
                             )): <p/>}
-                            </Form.Item>
-                        </Form>
+                        {overamount[item.id]? overamount[item.id].map(msg => (
+                            <p style={{'color':'red'}} key={msg}>Error: {msg}</p>
+                            )): <p/>}
+                        {submitSuccess[item.id]? submitSuccess[item.id].map(msg => (
+                            <p style={{'color':'green'}} key={msg}>{msg}</p>
+                            )): <p/>}
+                        </div>
                     </div>
                 </div>
                 
     )}
   />
   </div>
+  <Footer />
         
         </>
     )

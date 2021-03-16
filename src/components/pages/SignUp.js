@@ -81,7 +81,7 @@ const SignUp = () => {
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
-      
+      console.log(values)
     };
   
     const prefixSelector = (

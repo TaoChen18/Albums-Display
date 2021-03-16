@@ -6,7 +6,7 @@ app.use(cors());
 
 app.use('/sign-in',(req,res)=>{
     res.send({
-        token: 'admin'
+        token: "admin"
     });
 });
 

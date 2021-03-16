@@ -50,12 +50,13 @@ function Navbar({onClick,props}) {
             </li>
 
             <li className='nav-item'>
-              <div
+              <Link
+                to="/"
                 className={`${props.loggedIn || props.token? 'log-out':'nav-links-mobile'}`}
                 onClick={onClick}
               >
                 Log Out
-              </div>
+              </Link>
             </li>
             
             <li className='nav-item'>

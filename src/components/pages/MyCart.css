@@ -1,6 +1,10 @@
 .total-amount{
-    position: absolute;
+    position: fixed;
     font-size:25px;
     right:0;
     margin-right:20px;
+}
+
+.order-detail{
+    font-size:15px;
 }
