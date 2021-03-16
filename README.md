@@ -31,7 +31,7 @@ Just for showing some features related to LogIn
 ## Deployment
 The project is deployed using AWS Amplify.  
   
-The URL is https://master.d9ew9jzopygal.amplifyapp.com/  
+The URL is https://branch.d788jigyv5jog.amplifyapp.com/  
 
 
 ## Token Usage
